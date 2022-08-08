@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: jwt-token-security
+    datasource:
+      url: jdbc:h2:mem:security
+      username: test
+      password: test
+      driverClassName: org.h2.Driver
+    jpa:
+      spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+acrobat:
+  basePath: https://api.na4.adobesign.com/api/rest/v6
+  access_token: 3AAABLblqZhDlVDp8Niv0Mob2sYTyaaVTNnpxB6eKi90aA5MoTWZPU5VABgRMEFWhzcFJC2yauACDyeqAPYh9FMP5-RF7IleQ
+logging:
+  level:
+    ROOT: WARN
+    org.springframework.security: TRACE
+    com.computools.*: DEBUG
+
