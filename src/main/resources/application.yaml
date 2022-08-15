@@ -12,10 +12,12 @@ spring:
       spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 acrobat:
   basePath: https://api.na4.adobesign.com/api/rest/v6
-  access_token: 3AAABLblqZhDlVDp8Niv0Mob2sYTyaaVTNnpxB6eKi90aA5MoTWZPU5VABgRMEFWhzcFJC2yauACDyeqAPYh9FMP5-RF7IleQ
+  clientId: CBJCHBCAABAA0l_Y4o0uf4AHNk58s9y5uK2IRH_na9zZ
+  clientSecret: x-11gqqcoU4p0zbDX2J0JXao1CtflGc_
+  default_scopes: user_write:account, user_login:account, agreement_read:account, agreement_write:account, agreement_send:account
 logging:
   level:
     ROOT: WARN
-    org.springframework.security: TRACE
+    org.springframework.security: WARN
     com.computools.*: DEBUG
 

@@ -2,11 +2,14 @@ package com.computools.config;
 
 import io.swagger.client.model.ApiClient;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
@@ -22,5 +25,14 @@ public class AppConfiguration {
         apiClient.setBasePath(basePath);
         apiClient.setConnectTimeout(10000);
         return apiClient;
+    }
+    @Bean
+    public OkHttpClient getOkHttpClient () {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+        return okHttpClient;
     }
 }
