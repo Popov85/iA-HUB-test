@@ -33,7 +33,6 @@ public class DynamoDbConfig {
                                 new BasicAWSCredentials(amazonAWSAccessKey, amazonAWSSecretKey)))
                 .build();
     }
-
     @Bean
     public DynamoDBMapper dynamoDBMapper() {
         return new DynamoDBMapper(amazonDynamoDB());

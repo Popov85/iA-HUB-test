@@ -18,7 +18,7 @@ public class OAuth2Controller {
     private Oauth2Service oauth2Service;
 
     @GetMapping
-    public ResponseEntity<Oauth2ResponseDto> receiveCodeAndGetTokens(@RequestParam(value = "code") String code) {
+    public ResponseEntity<Oauth2ResponseDto> receiveCodeAndGetTokens(@RequestParam(value = "code") String code) throws Exception {
         // TODO: put token info to http session, or DynamoDb (return only ID)
         log.debug("Receive a header check = {}", code);
         return ResponseEntity.ok(oauth2Service.getTokens(code));
