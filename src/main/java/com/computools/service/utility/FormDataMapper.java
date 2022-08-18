@@ -1,4 +1,4 @@
-package com.computools.service.utils;
+package com.computools.service.utility;
 
 import java.net.http.HttpRequest;
 import java.util.Map;

@@ -9,24 +9,27 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/webhook")
+@RequestMapping(path = "/ia-hub-webhook")
 public class WebHooksController {
 
     private static final String WEB_HOOK_SECURITY_HEADER_NAME= "x-adobesign-clientid";
 
-    @GetMapping(value = "/agreement_workflow_completed")
-    public ResponseEntity<String> check(@RequestHeader(value = WEB_HOOK_SECURITY_HEADER_NAME) String securityHeader) {
-        log.debug("Receive a header check = {}", securityHeader);
+    @GetMapping(value = "/{webHookUuid}")
+    public ResponseEntity<String> check(
+            @RequestHeader(value = WEB_HOOK_SECURITY_HEADER_NAME) String securityHeader, @PathVariable String webHookUuid) {
+        log.debug("Receive a header check = {}, webhook ID= {}", securityHeader, webHookUuid);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(WEB_HOOK_SECURITY_HEADER_NAME, securityHeader);
         return ResponseEntity.ok().headers(responseHeaders).build();
     }
 
-    // TODO: SSL protection put! PKCS12
-    @PostMapping(value = "/agreement_workflow_completed", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> receive(@RequestBody AgreementWorkFlowCompletedWebHookResponseDto dto) {
-        log.debug("Receive a callback = {}", dto);
-        // TODO: preform logic to save the result to DynamoDB
+    @PostMapping(value = "/{webHookUuid}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> receive(@RequestBody AgreementWorkFlowCompletedWebHookResponseDto dto, @PathVariable String webHookUuid) {
+        log.debug("Receive a callback = {}, webhook ID= {}", dto, webHookUuid);
+        // TODO: preform logic to
+        // 1) Find config based on this webHookUuid (if not found - SecurityException)
+        // 2) Log the webhook received to DynamoDb
+        // 3) Retrieve and re-send the signed .pdf document to SPA
         return ResponseEntity.ok("OK");
     }
 

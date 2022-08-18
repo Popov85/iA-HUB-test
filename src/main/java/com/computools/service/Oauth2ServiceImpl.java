@@ -1,7 +1,7 @@
 package com.computools.service;
 
 import com.computools.service.domain.Oauth2ResponseDto;
-import com.computools.service.utils.FormDataMapper;
+import com.computools.service.utility.FormDataMapper;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
