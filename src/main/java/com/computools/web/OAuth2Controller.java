@@ -1,7 +1,7 @@
 package com.computools.web;
 
-import com.computools.service.acrobat_sign.AcrobatOauth2Service;
-import com.computools.service.acrobat_sign.domain.Oauth2ResponseDto;
+import com.computools.auth.acrobat_sign.AcrobatOauth2Service;
+import com.computools.auth.acrobat_sign.domain.Oauth2ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

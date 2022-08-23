@@ -1,9 +1,11 @@
 package com.computools.api.invoice_agent;
 
 import com.computools.api.invoice_agent.domain.DocumentUploadResponseDto;
-import com.computools.service.invoice_agent.domain.RequiredCookiesDto;
+import com.computools.config.APIConfiguration;
+import com.computools.auth.invoice_agent.domain.RequiredCookiesDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,34 +17,33 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
-public class InvoiceAgentArchiveServiceSpring {
-    @Value("${invoice_agent.base_url}")
-    private String baseUrl;
+@Qualifier("Spring")
+public class InvoiceAgentArchiveServiceSpringImpl implements InvoiceAgentArchiveService {
+    @Autowired
+    private APIConfiguration apiConfiguration;
 
-    public DocumentUploadResponseDto upload(RequiredCookiesDto requiredCookiesDto, String xsrfTokenHeader, MultipartFile file) throws Exception{
-        LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        DocumentUploadResponseDto response;
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Override
+    public DocumentUploadResponseDto upload(RequiredCookiesDto requiredCookiesDto, String xsrfTokenHeader, MultipartFile file){
         try {
+            LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
             map.add("file", new InputStreamResource(file.getInputStream(), file.getOriginalFilename()));
             map.add("path", "/test123");
-            map.add("name", "Roofing_contract_via_API_2.pdf");
+            map.add("name", file.getOriginalFilename());
             map.add("overwrite", "true");
             map.add("overwriteUpdate", "true");
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
             headers.add("X-XSRF-TOKEN", xsrfTokenHeader);
             headers.add("X-Requested-With", "iA HUB");
-            headers.add("Cookie",
-                    "JSESSIONID=" + requiredCookiesDto.getJSID() +
-                            ";XSRF-TOKEN=" + requiredCookiesDto.getXsrfToken() +
-                            ";AWSALB=" + requiredCookiesDto.getAWsAlb() +
-                            ";AWSALBCORS=" + requiredCookiesDto.getAWSAlbCORS());
+            headers.add("Cookie", requiredCookiesDto.getCookies());
 
             HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
 
-            response = new RestTemplate()
-                    .postForObject(baseUrl+"/archives_v3", requestEntity, DocumentUploadResponseDto.class);
+            DocumentUploadResponseDto response = restTemplate
+                    .postForObject(apiConfiguration.INVOICE_AGENT_ARCHIVE_UPLOAD, requestEntity, DocumentUploadResponseDto.class);
             return response;
         } catch (Exception e) {
             throw new RuntimeException(e);

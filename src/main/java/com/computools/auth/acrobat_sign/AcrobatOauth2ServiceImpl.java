@@ -1,7 +1,7 @@
-package com.computools.service.acrobat_sign;
+package com.computools.auth.acrobat_sign;
 
-import com.computools.service.acrobat_sign.domain.Oauth2ResponseDto;
-import com.computools.service.utility.FormDataMapper;
+import com.computools.auth.acrobat_sign.domain.Oauth2ResponseDto;
+import com.computools.auth.utility.FormDataMapper;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

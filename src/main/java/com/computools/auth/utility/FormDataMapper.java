@@ -1,4 +1,4 @@
-package com.computools.service.utility;
+package com.computools.auth.utility;
 
 import java.net.http.HttpRequest;
 import java.util.Map;

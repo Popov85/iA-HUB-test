@@ -1,4 +1,4 @@
-package com.computools.service.invoice_agent.domain;
+package com.computools.auth.invoice_agent.domain;
 
 import lombok.Data;
 

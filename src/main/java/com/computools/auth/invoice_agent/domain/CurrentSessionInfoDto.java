@@ -1,13 +1,11 @@
-package com.computools.service.invoice_agent.domain;
+package com.computools.auth.invoice_agent.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
-public class InvoiceAgentAuthDto {
+public class CurrentSessionInfoDto {
     private String tenantId;
     private String sessionTicketId;
     private String userName;
@@ -17,6 +15,4 @@ public class InvoiceAgentAuthDto {
     private String fullName;
     private String autoLogin;
     private String appendix;
-    private String xsrfToken;
-    private List<String> setCookies;
 }

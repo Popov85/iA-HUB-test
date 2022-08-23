@@ -1,17 +1,17 @@
 package com.computools.web;
 
 import com.computools.api.invoice_agent.InvoiceAgentArchiveService;
-import com.computools.api.invoice_agent.InvoiceAgentArchiveServiceSpring;
 import com.computools.api.invoice_agent.InvoiceAgentFoldersService;
 import com.computools.api.invoice_agent.domain.DocumentUploadResponseDto;
 import com.computools.api.invoice_agent.domain.FolderListDto;
-import com.computools.service.invoice_agent.InvoiceAgentAuthService;
-import com.computools.service.invoice_agent.InvoiceAgentSessionService;
-import com.computools.service.invoice_agent.domain.AuthDto;
-import com.computools.service.invoice_agent.domain.CurrentSessionInfoDto;
-import com.computools.service.invoice_agent.domain.RequiredCookiesDto;
+import com.computools.auth.invoice_agent.InvoiceAgentAuthService;
+import com.computools.auth.invoice_agent.InvoiceAgentSessionService;
+import com.computools.auth.invoice_agent.domain.AuthDto;
+import com.computools.auth.invoice_agent.domain.CurrentSessionInfoDto;
+import com.computools.auth.invoice_agent.domain.RequiredCookiesDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,16 +27,20 @@ import java.util.List;
 public class InvoiceAgentController {
 
     @Autowired
+    @Qualifier("Spring")
     private InvoiceAgentAuthService invoiceAgentAuthService;
 
     @Autowired
+    @Qualifier("Spring")
     private InvoiceAgentFoldersService invoiceAgentFoldersService;
 
     @Autowired
+    @Qualifier("Spring")
     private InvoiceAgentSessionService invoiceAgentSessionService;
 
     @Autowired
-    private InvoiceAgentArchiveServiceSpring invoiceAgentArchiveService;
+    @Qualifier("Spring")
+    private InvoiceAgentArchiveService invoiceAgentArchiveService;
 
     @PostMapping(value = "/auth", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAuthenticated(@RequestBody AuthDto authDto) throws Exception {

@@ -1,10 +1,11 @@
-package com.computools.service.invoice_agent;
+package com.computools.auth.invoice_agent;
 
-import com.computools.service.invoice_agent.domain.AuthDto;
-import com.computools.service.utility.FormDataMapper;
+import com.computools.auth.invoice_agent.domain.AuthDto;
+import com.computools.auth.utility.FormDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -19,6 +20,8 @@ import java.util.Map;
 
 @Slf4j
 @Service
+@Qualifier("Java11")
+@Deprecated
 public class InvoiceAgentAuthServiceImpl implements InvoiceAgentAuthService {
     @Autowired
     private ObjectFactory<HttpClient> client;

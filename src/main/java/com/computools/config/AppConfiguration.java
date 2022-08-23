@@ -5,6 +5,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.CookieManager;
 import java.net.http.HttpClient;
@@ -23,5 +24,10 @@ public class AppConfiguration {
                 .cookieHandler(new CookieManager())
                 .build();
         return httpClient;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

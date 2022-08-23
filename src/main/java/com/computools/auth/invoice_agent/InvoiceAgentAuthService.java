@@ -1,6 +1,6 @@
-package com.computools.service.invoice_agent;
+package com.computools.auth.invoice_agent;
 
-import com.computools.service.invoice_agent.domain.AuthDto;
+import com.computools.auth.invoice_agent.domain.AuthDto;
 
 import java.util.List;
 
