@@ -1,6 +1,6 @@
-package com.computools.api;
+package com.computools.api.acrobat_sign;
 
-import com.computools.api.domain.AgreementCreationDto;
+import com.computools.api.acrobat_sign.domain.AgreementCreationDto;
 import io.swagger.client.api.AgreementsApi;
 import io.swagger.client.model.ApiClient;
 import io.swagger.client.model.agreements.*;

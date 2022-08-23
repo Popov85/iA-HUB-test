@@ -1,6 +1,6 @@
-package com.computools.api;
+package com.computools.api.acrobat_sign;
 
-import com.computools.api.domain.TransientDocumentDto;
+import com.computools.api.acrobat_sign.domain.TransientDocumentDto;
 import io.swagger.client.api.TransientDocumentsApi;
 import io.swagger.client.model.ApiClient;
 import io.swagger.client.model.transientDocuments.TransientDocumentResponse;

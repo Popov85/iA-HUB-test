@@ -1,7 +1,7 @@
 package com.computools.web;
 
-import com.computools.service.Oauth2Service;
-import com.computools.service.domain.Oauth2ResponseDto;
+import com.computools.service.acrobat_sign.AcrobatOauth2Service;
+import com.computools.service.acrobat_sign.domain.Oauth2ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/oauth2")
 public class OAuth2Controller {
     @Autowired
-    private Oauth2Service oauth2Service;
+    private AcrobatOauth2Service oauth2Service;
 
     @GetMapping
     public ResponseEntity<Oauth2ResponseDto> receiveCodeAndGetTokens(@RequestParam(value = "code") String code) throws Exception {

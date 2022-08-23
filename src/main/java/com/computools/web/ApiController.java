@@ -1,10 +1,10 @@
 package com.computools.web;
 
-import com.computools.api.AgreementService;
-import com.computools.api.BaseUrisService;
-import com.computools.api.TransientDocumentsService;
-import com.computools.api.domain.AgreementCreationDto;
-import com.computools.api.domain.TransientDocumentDto;
+import com.computools.api.acrobat_sign.AgreementService;
+import com.computools.api.acrobat_sign.BaseUrisService;
+import com.computools.api.acrobat_sign.TransientDocumentsService;
+import com.computools.api.acrobat_sign.domain.AgreementCreationDto;
+import com.computools.api.acrobat_sign.domain.TransientDocumentDto;
 import io.swagger.client.model.agreements.AgreementCreationResponse;
 import io.swagger.client.model.baseUris.BaseUriInfo;
 import io.swagger.client.model.transientDocuments.TransientDocumentResponse;

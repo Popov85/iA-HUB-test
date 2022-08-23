@@ -1,4 +1,4 @@
-package com.computools.service.domain;
+package com.computools.service.acrobat_sign.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

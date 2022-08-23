@@ -1,4 +1,4 @@
-package com.computools.api.domain.web_hooks;
+package com.computools.api.acrobat_sign.domain.web_hooks;
 
 import lombok.Data;
 

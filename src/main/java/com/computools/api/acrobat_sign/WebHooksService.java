@@ -1,4 +1,4 @@
-package com.computools.api;
+package com.computools.api.acrobat_sign;
 
 import io.swagger.client.api.WebhooksApi;
 import io.swagger.client.model.ApiClient;

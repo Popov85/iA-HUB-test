@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Scope;
 @Slf4j
 @Configuration
 public class AcrobatConfiguration {
-    @Value("${acrobat.basePath}")
-    private String basePath;
+    @Value("${acrobat.base_api_url}")
+    private String baseApiUrl;
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public ApiClient getApiClient() {
         ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(basePath);
+        apiClient.setBasePath(baseApiUrl);
         apiClient.setConnectTimeout(10000);
         return apiClient;
     }

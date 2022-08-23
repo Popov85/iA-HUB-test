@@ -1,4 +1,4 @@
-package com.computools.api.domain;
+package com.computools.api.acrobat_sign.domain;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
