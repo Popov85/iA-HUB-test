@@ -12,8 +12,8 @@ import java.util.Map;
 
 @Setter
 @NoArgsConstructor
-@DynamoDBTable(tableName = "Configs")
-public class Configs {
+@DynamoDBTable(tableName = "Webhooks")
+public class Webhooks {
     @JsonProperty("config_id")
     private String configId;
     @JsonProperty("config_name")
@@ -25,7 +25,7 @@ public class Configs {
     @JsonProperty("owner")
     private String owner;
 
-    public Configs(String configId) {
+    public Webhooks(String configId) {
         this.configId = configId;
     }
 

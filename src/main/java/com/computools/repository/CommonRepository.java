@@ -5,8 +5,8 @@ import java.util.Optional;
 
 public interface CommonRepository<T> {
     T save(T table);
-    Optional<T> findById(String id);
+    //Optional<T> findById(String id);
     List<T> findAll();
-    void deleteById(String id);
-    T updateById(String id, T table);
+//    void deleteById(String id);
+//    T updateById(String id, T table);
 }

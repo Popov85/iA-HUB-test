@@ -46,12 +46,12 @@ public class LogsRepositoryImpl implements LogsRepository {
     }
 
     @Override
-    public Logs updateById(String id, Logs logs) {
+    public Logs update(Logs logs) {
         log.debug("Updating = {}", logs);
         dynamoDBMapper.save(logs,
                 new DynamoDBSaveExpression()
                         .withExpectedEntry("agreement_id",
-                                new ExpectedAttributeValue(new AttributeValue().withS(id))));
+                                new ExpectedAttributeValue(new AttributeValue().withS(""))));
         return logs;
     }
 }
