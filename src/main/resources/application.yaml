@@ -20,11 +20,12 @@ amazon:
   region: eu-central-1
   end-point:
     url: http://localhost:8000/
+passwordKey: 900a07caf7d747ab386b4ad69e959baff3ded19156505bfd19ff43848a297ba4e4f7dee88beb38b71bd9acf59f87ad7ed37bfab5b12135e7cd8e3bc3a8853ef6a4215cb878d34a6857856b5f3fb3df6d
 logging:
   level:
     ROOT: WARN
     org.springframework.security: WARN
     org.springframework.web: WARN
-    com.amazonaws.*: DEBUG
+    com.amazonaws.*: WARN
     com.computools.*: DEBUG
 

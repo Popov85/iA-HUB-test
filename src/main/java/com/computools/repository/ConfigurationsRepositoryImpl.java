@@ -1,17 +1,21 @@
 package com.computools.repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.computools.repository.table.Configurations;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 @Repository
 public class ConfigurationsRepositoryImpl implements ConfigurationsRepository {
+
+    private static final Integer DEFAULT_PAGE_SIZE = 10;
 
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
@@ -23,12 +27,15 @@ public class ConfigurationsRepositoryImpl implements ConfigurationsRepository {
     }
 
     @Override
-    public PaginatedList<Configurations> findByHashKey(Long tenantNo) {
-        DynamoDBQueryExpression<Configurations> queryExpression = new DynamoDBQueryExpression()
+    public QueryResultPage<Configurations> findByHashKey(Long tenantNo, Map<String, AttributeValue> lastEvaluatedKey) {
+        DynamoDBQueryExpression dynamoDBQueryExpression = new DynamoDBQueryExpression();
+        dynamoDBQueryExpression
                 .withHashKeyValues(new Configurations(tenantNo))
-                .withConsistentRead(false);
-        PaginatedList<Configurations> result =
-                dynamoDBMapper.query(Configurations.class, queryExpression);
+                .withConsistentRead(false)
+                .withLimit(DEFAULT_PAGE_SIZE)
+                .setExclusiveStartKey(lastEvaluatedKey);
+        QueryResultPage<Configurations> result =
+                dynamoDBMapper.queryPage(Configurations.class, dynamoDBQueryExpression);
         return result;
     }
 

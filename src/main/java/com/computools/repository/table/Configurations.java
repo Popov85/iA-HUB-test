@@ -1,7 +1,6 @@
 package com.computools.repository.table;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -11,33 +10,25 @@ import java.util.Map;
 @NoArgsConstructor
 @DynamoDBTable(tableName = "Configurations")
 public class Configurations {
-
-    @JsonProperty("tenantNo")
     private Long tenantNo;
-    @JsonProperty("configurationId")
+
     private String configurationId;
 
-    @JsonProperty("configurationName")
     private String configurationName;
 
-    @JsonProperty("configurationCredentials")
     private Map<String, String> configurationCredentials;
 
-    @JsonProperty("accountType")
     private String accountType;
 
-    @JsonProperty("credentialsType")
     private String credentialsType;
 
     public Configurations(Long tenantNo) {
         this.tenantNo = tenantNo;
     }
-
     public Configurations(Long tenantNo, String configurationId) {
         this.tenantNo = tenantNo;
         this.configurationId = configurationId;
     }
-
     @DynamoDBHashKey(attributeName = "tenantNo")
     public Long getTenantNo() {
         return tenantNo;

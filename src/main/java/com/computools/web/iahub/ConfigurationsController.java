@@ -1,7 +1,9 @@
-package com.computools.web;
+package com.computools.web.iahub;
 
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.computools.service.ConfigurationsService;
 import com.computools.service.dto.ConfigurationsDto;
+import com.computools.service.dto.QueryResultPageConfigurationsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -26,23 +29,24 @@ public class ConfigurationsController {
         return all;
     }
 
-    // TODO: next page?
-    @GetMapping(value = "/{tenantNo}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{tenantNo}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ConfigurationsDto> findByHashKey(@PathVariable Long tenantNo) {
+    public QueryResultPageConfigurationsDto findByHashKey(@PathVariable Long tenantNo,
+                                            @RequestParam(required = false) Map<String, AttributeValue> lastEvaluatedKey) {
         log.debug("Find by hash key = {}", tenantNo);
-        List<ConfigurationsDto> byHashKey =
-                configurationsService.findByHashKey(tenantNo);
+        QueryResultPageConfigurationsDto byHashKey =
+                configurationsService.findByHashKey(tenantNo,
+                        ((lastEvaluatedKey != null && !lastEvaluatedKey.isEmpty())) ? lastEvaluatedKey : null);
         return byHashKey;
     }
 
-    @GetMapping(value = "/{tenantNo}/{configurationId}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{tenantNo}/{configurationId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ConfigurationsDto findByCompositeKey(@PathVariable Long tenantNo, @PathVariable String configurationId) {
         log.debug("Find by composite key = {}, {}", tenantNo, configurationId);
         Optional<ConfigurationsDto> byHashKey =
                 configurationsService.findByCompositeKey(tenantNo, configurationId);
-        return byHashKey.orElseThrow(()->new RuntimeException("Configuration is not found!"));
+        return byHashKey.orElseThrow(() -> new RuntimeException("Configuration is not found!"));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
