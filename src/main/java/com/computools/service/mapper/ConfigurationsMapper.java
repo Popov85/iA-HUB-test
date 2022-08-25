@@ -3,10 +3,7 @@ package com.computools.service.mapper;
 import com.computools.repository.table.Configurations;
 import com.computools.service.dto.ConfigurationsDto;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 
@@ -23,8 +20,10 @@ public abstract class ConfigurationsMapper {
     @Autowired
     private TextEncryptor textEncryptor;
 
+    @Mapping(target = "tenantNo", ignore = true)
     public abstract ConfigurationsDto toDto(Configurations table);
     public abstract Configurations toTable(ConfigurationsDto dto);
+    @Mapping(target = "tenantNo", ignore = true)
     public abstract List<ConfigurationsDto> toDto(List<Configurations> table);
 
     @AfterMapping

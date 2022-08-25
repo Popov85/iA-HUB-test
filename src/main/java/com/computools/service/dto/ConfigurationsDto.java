@@ -2,6 +2,7 @@ package com.computools.service.dto;
 
 import com.computools.service.AccountType;
 import com.computools.service.CredentialsType;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConfigurationsDto {
 
     @JsonProperty("tenantNo")

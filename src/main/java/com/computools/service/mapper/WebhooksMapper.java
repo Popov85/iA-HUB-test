@@ -3,10 +3,7 @@ package com.computools.service.mapper;
 import com.computools.repository.table.Webhooks;
 import com.computools.service.dto.WebhooksDto;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 
@@ -22,9 +19,13 @@ public abstract class WebhooksMapper {
     @Autowired
     private TextEncryptor textEncryptor;
 
+    @Mapping(target = "tenantNo", ignore = true)
+    @Mapping(target = "configurationId", ignore = true)
     public abstract WebhooksDto toDto(Webhooks table);
     public abstract Webhooks toTable(WebhooksDto dto);
 
+    @Mapping(target = "tenantNo", ignore = true)
+    @Mapping(target = "configurationId", ignore = true)
     public abstract List<WebhooksDto> toDto(List<Webhooks> table);
 
     @AfterMapping
