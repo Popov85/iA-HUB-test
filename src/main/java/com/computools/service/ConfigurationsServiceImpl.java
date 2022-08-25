@@ -3,12 +3,9 @@ package com.computools.service;
 import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.computools.repository.ConfigurationsRepository;
-import com.computools.repository.WebhooksRepository;
 import com.computools.repository.table.Configurations;
-import com.computools.service.dto.ConfigurationsDto;
-import com.computools.service.dto.QueryResultPageConfigurationsDto;
+import com.computools.service.dto.*;
 import com.computools.service.mapper.ConfigurationsMapper;
-import com.computools.service.mapper.QueryResultPageConfigurationsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,16 +20,13 @@ import java.util.stream.Collectors;
 public class ConfigurationsServiceImpl implements ConfigurationsService {
 
     @Autowired
+    private WebhooksService webhooksService;
+
+    @Autowired
     private ConfigurationsRepository configurationsRepository;
 
     @Autowired
-    private WebhooksRepository webhooksRepository;
-
-    @Autowired
     private ConfigurationsMapper configurationsMapper;
-
-    @Autowired
-    private QueryResultPageConfigurationsMapper queryResultPageConfigurationsMapper;
 
     @Override
     public ConfigurationsDto save(ConfigurationsDto dto) {
@@ -56,16 +50,29 @@ public class ConfigurationsServiceImpl implements ConfigurationsService {
     }
 
     @Override
-    public QueryResultPageConfigurationsDto findByHashKey(Long tenantNo, Map<String, AttributeValue> lastEvaluatedKey) {
+    public QueryResultPageDto<ConfigurationsWebhooksDto> findByHashKey(Long tenantNo, Map<String, AttributeValue> lastEvaluatedKey) {
         QueryResultPage<Configurations> page =
                 configurationsRepository.findByHashKey(tenantNo, lastEvaluatedKey);
-        QueryResultPageConfigurationsDto result = queryResultPageConfigurationsMapper.toDto(page);
-        return result;
+        // Add webhooks for each configuration!
+        List<ConfigurationsWebhooksDto> results = page.getResults()
+                .stream()
+                .map(c -> new ConfigurationsWebhooksDto(
+                        configurationsMapper.toDto(c),
+                        webhooksService.findByCompositeIndex(tenantNo, c.getConfigurationId())))
+                .collect(Collectors.toList());
+
+        return QueryResultPageDto.<ConfigurationsWebhooksDto>builder()
+                        .results(results)
+                        .lastEvaluatedKey(page.getLastEvaluatedKey())
+                        .consumedCapacity(page.getConsumedCapacity())
+                        .count(page.getCount())
+                        .scannedCount(page.getScannedCount())
+                        .build();
     }
 
     @Override
     public void deleteByCompositeKey(Long tenantNo, String configurationId) {
-        if (webhooksRepository.existsByCompositeIndex(tenantNo, configurationId))
+        if (webhooksService.existsByCompositeIndex(tenantNo, configurationId))
             throw new IllegalStateException("Configurations with associated webhooks cannot be deleted! Delete webhooks first!");
         configurationsRepository.deleteByCompositeKey(tenantNo, configurationId);
     }

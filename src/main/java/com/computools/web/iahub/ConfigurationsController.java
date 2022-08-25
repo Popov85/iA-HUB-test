@@ -3,7 +3,8 @@ package com.computools.web.iahub;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.computools.service.ConfigurationsService;
 import com.computools.service.dto.ConfigurationsDto;
-import com.computools.service.dto.QueryResultPageConfigurationsDto;
+import com.computools.service.dto.ConfigurationsWebhooksDto;
+import com.computools.service.dto.QueryResultPageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,10 +33,10 @@ public class ConfigurationsController {
 
     @GetMapping(value = "/{tenantNo}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public QueryResultPageConfigurationsDto findByHashKey(@PathVariable Long tenantNo,
-                                            @RequestParam(required = false) Map<String, AttributeValue> lastEvaluatedKey) {
+    public QueryResultPageDto<ConfigurationsWebhooksDto> findByHashKey(@PathVariable Long tenantNo,
+                                                                       @RequestParam(required = false) Map<String, AttributeValue> lastEvaluatedKey) {
         log.debug("Find by hash key = {}", tenantNo);
-        QueryResultPageConfigurationsDto byHashKey =
+        QueryResultPageDto<ConfigurationsWebhooksDto> byHashKey =
                 configurationsService.findByHashKey(tenantNo,
                         ((lastEvaluatedKey != null && !lastEvaluatedKey.isEmpty())) ? lastEvaluatedKey : null);
         return byHashKey;

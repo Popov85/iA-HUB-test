@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -60,25 +59,22 @@ public class WebhooksRepositoryImpl implements WebhooksRepository {
     }
 
     @Override
-    public QueryResultPage<Webhooks> findByCompositeIndex(Long tenantNo, String configurationId, Map<String, AttributeValue> lastEvaluatedKey) {
-
+    public PaginatedList<Webhooks> findByCompositeIndex(Long tenantNo, String configurationId) {
         final Webhooks webhooks = new Webhooks(tenantNo);
 
         final DynamoDBQueryExpression<Webhooks> queryExpression = new DynamoDBQueryExpression<>();
 
         queryExpression.withIndexName("index-tenantNo-configurationId")
                 .withConsistentRead(false)
-                .withProjectionExpression("webhookId,storageType,archiveFolder,propertiesMapping,credentials,signingTool")
-                .withHashKeyValues(webhooks)
-                .withLimit(DEFAULT_PAGE_SIZE)
-                .setExclusiveStartKey(lastEvaluatedKey);
+                .withProjectionExpression("webhookId,storageType,archiveFolder,propertiesMapping,credentials")
+                .withHashKeyValues(webhooks);
 
         queryExpression.withRangeKeyCondition("configurationId",
                 new Condition()
                         .withComparisonOperator(ComparisonOperator.EQ)
                         .withAttributeValueList(new AttributeValue().withS(configurationId)));
 
-        QueryResultPage<Webhooks> result = dynamoDBMapper.queryPage(Webhooks.class, queryExpression);
+        PaginatedQueryList<Webhooks> result = dynamoDBMapper.query(Webhooks.class, queryExpression);
 
         return result;
     }
