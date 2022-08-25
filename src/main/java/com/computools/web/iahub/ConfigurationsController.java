@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,7 +52,7 @@ public class ConfigurationsController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ConfigurationsDto save(@RequestBody ConfigurationsDto dto) {
+    public ConfigurationsDto save(@RequestBody @Valid ConfigurationsDto dto) {
         ConfigurationsDto savedConfig = configurationsService.save(dto);
         log.debug("Saved config = {}", savedConfig);
         return savedConfig;
@@ -59,7 +60,7 @@ public class ConfigurationsController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public ConfigurationsDto update(@RequestBody ConfigurationsDto newConfig) {
+    public ConfigurationsDto update(@RequestBody @Valid ConfigurationsDto newConfig) {
         log.debug("Update = {}, {}", newConfig.getTenantNo(), newConfig.getConfigurationId());
         configurationsService.save(newConfig);
         return newConfig;

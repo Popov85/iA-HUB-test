@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,7 +53,7 @@ public class WebhooksController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public WebhooksDto save(@RequestBody WebhooksDto dto) {
+    public WebhooksDto save(@RequestBody @Valid WebhooksDto dto) {
         WebhooksDto savedWebhook = webhooksService.save(dto);
         log.debug("Saved config = {}", savedWebhook);
         return savedWebhook;
@@ -60,7 +61,7 @@ public class WebhooksController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public WebhooksDto update(@RequestBody WebhooksDto dto) {
+    public WebhooksDto update(@RequestBody @Valid WebhooksDto dto) {
         WebhooksDto updatedWebhook = webhooksService.save(dto);
         log.debug("Update updatedWebhook = {}", updatedWebhook);
         return updatedWebhook;
