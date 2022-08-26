@@ -16,8 +16,6 @@ import java.util.Optional;
 @Repository
 public class WebhooksRepositoryImpl implements WebhooksRepository {
 
-    private static final Integer DEFAULT_PAGE_SIZE = 10;
-
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 

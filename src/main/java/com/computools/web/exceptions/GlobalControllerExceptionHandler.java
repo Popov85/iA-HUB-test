@@ -22,6 +22,7 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
                 ex.getMessage(),
                 ex.getCause() != null ? ex.getCause().getMessage() : "Unknown cause",
                 request.toString());
+        ex.printStackTrace();
         return exceptionResponse;
     }
 

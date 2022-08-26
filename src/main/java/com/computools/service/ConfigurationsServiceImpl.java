@@ -45,12 +45,14 @@ public class ConfigurationsServiceImpl implements ConfigurationsService {
     @Override
     public Optional<ConfigurationsDto> findByCompositeKey(Long tenantNo, String configurationId) {
         Optional<ConfigurationsDto> configurationsDto =
-                configurationsRepository.findByCompositeKey(tenantNo, configurationId).map(c -> configurationsMapper.toDto(c));
+                configurationsRepository.findByCompositeKey(tenantNo, configurationId).
+                        map(c -> configurationsMapper.toDto(c));
         return configurationsDto;
     }
 
     @Override
-    public QueryResultPageDto<ConfigurationsWebhooksDto> findByHashKey(Long tenantNo, Map<String, AttributeValue> lastEvaluatedKey) {
+    public QueryResultPageDto<ConfigurationsWebhooksDto> findByHashKey(Long tenantNo,
+                                                                       Map<String, AttributeValue> lastEvaluatedKey) {
         QueryResultPage<Configurations> page =
                 configurationsRepository.findByHashKey(tenantNo, lastEvaluatedKey);
         // Add webhooks for each configuration!
