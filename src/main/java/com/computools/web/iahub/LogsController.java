@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.computools.service.LogsService;
 import com.computools.service.dto.LogsDto;
 import com.computools.service.dto.QueryResultPageDto;
+import com.computools.service.event.IaHubEventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ import java.util.Optional;
 public class LogsController {
     @Autowired
     private LogsService logsService;
+
+    @Autowired
+    private IaHubEventPublisher iaHubEventPublisher;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -62,6 +66,7 @@ public class LogsController {
     public LogsDto save(@RequestBody @Valid LogsDto dto) {
         LogsDto savedWebhook = logsService.save(dto);
         log.debug("Saved config = {}", savedWebhook);
+        iaHubEventPublisher.publishLogsEvent(dto);
         return savedWebhook;
     }
 
